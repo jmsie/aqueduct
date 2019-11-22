@@ -15,10 +15,10 @@ class API():
     except:
       print("Error in setting up API: " + self.name)
 
-  def set_positions(self):
+  def set_positions(self, system_id, symbol, position):
     pass
 
-  def get_positions(self):
+  def get_positions(self, system_id, symbol):
     pass
 
 if __name__ == "__main__":

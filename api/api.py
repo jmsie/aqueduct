@@ -16,9 +16,11 @@ class API():
       print("Error in setting up API: " + self.name)
 
   def set_positions(self, system_id, symbol, position):
+    print("set_position: {} {} {}".format(system_id, symbol, position))
     pass
 
   def get_positions(self, system_id, symbol):
+    print("get_position: {} {} {}".format(system_id, symbol))
     pass
 
 if __name__ == "__main__":

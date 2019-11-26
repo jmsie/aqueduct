@@ -25,13 +25,18 @@ class Monitor():
     for fund_name, settings in self.fund_settings.items():
       fund = {
         "name": fund_name,
-        "paths": get_files_in_path(settings['path'])
+        "system_id": settings['system_id'],
+        'api_key': settings['api_key'],
+        "targets": {},
       }
+      for target_name, target_settings in settings['targets'].items():
+        target_settings['signal_files'] = get_files_in_path(target_settings['path'])
+        fund['targets'][target_name] = target_settings
+        target_settings['position'] = 0
       self.funds.append(fund)
 
   def append_api(self, api):
     self.APIs.append(api)
-
 
   def start(self):
     while(1):
@@ -39,19 +44,33 @@ class Monitor():
 
   def track_files(self):
     for fund in self.funds:
-      total_position = 0
-      fund_name = fund['name']
-      fund_paths = fund['paths']
-      for path in fund_paths:
-        with open(path) as fd:
-          # Only one line in the signal output file
-          line = fd.readline()
-          position = int(line.split(',')[1])
-          total_position += position
-      for api in self.APIs:
-        system_id = self.fund_settings[fund_name]['system_id']
-        symbol = self.fund_settings[fund_name]['symbol']
-        api.set_positions(system_id, symbol, total_position)
+      targets = fund['targets']
+      try:
+        total_position = 0
+        system_id = fund['system_id']
+        api_key = fund['api_key']
+        update = False
+
+        for symbol, target in fund['targets'].items():
+          for signal_file in target['signal_files']:
+            with open(signal_file) as fd:
+              # Only one line in the signal output file
+              line = fd.readline()
+              position = int(line.split(',')[1])
+              total_position += position
+          if target['position'] != total_position:
+            target['position'] = total_position
+            update = True
+
+        if update:
+          for api in self.APIs:
+            api.reset()
+            for symbol, target in fund['targets'].items():
+              api.set_positions(symbol, target['symbol_type'], target['position'])
+            api.commit_positions(system_id, api_key)
+      except:
+        print("Error while handling fund: {}, revert the targets status".format(fund['name']))
+        fund['targets'] = targets
 
 if __name__ == "__main__":
   from config import *

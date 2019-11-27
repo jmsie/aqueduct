@@ -33,6 +33,7 @@ class Monitor():
         fund['targets'][target_name] = target_settings
         target_settings['position'] = 0
       self.funds.append(fund)
+
       print("Init fund: " + fund_name)
       print("\tTrading target: " + target_name)
       print("\tSignal_files:")

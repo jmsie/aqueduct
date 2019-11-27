@@ -85,4 +85,4 @@ if __name__ == "__main__":
   monitor = Monitor()
   monitor.append_api(c2)
   monitor.set_fund_settings(fund_settings)
-  #monitor.start()
+  monitor.start()

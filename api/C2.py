@@ -1,10 +1,11 @@
-import json
 from datetime import datetime
+import requests
 
 class C2():
   def __init__(self, context):
     self.name = ""
     self.base_url = ""
+    self.commit_position_api = ""
     self.positions = []
     self.set_api_config(context)
 
@@ -12,6 +13,7 @@ class C2():
     try:
       self.name = context['name']
       self.base_url = context['base_url']
+      self.commit_position_api = self.base_url + "setDesiredPositions"
     except:
       print("Error in setting up API: " + self.name)
 
@@ -31,16 +33,9 @@ class C2():
       "apikey": api_key,
       "positions": self.positions,
     }
-    payload = json.dumps(data)
     print("commit position: {}".format(datetime.now()))
     print(self.positions)
 
+    response = requests.post(url=self.commit_position_api, json=data)
+    print(response.json())
 
-
-if __name__ == "__main__":
-  api_config = {
-    'name': "C2",
-    "base_url": "https://collective2.com/world/apiv3/",
-    "api_key": "1kuBwZmJpHHHgJAHFSYGYFSYGHf1nvOV4hSGPWVwy8HuAshe",
-  }
-  c2 = C2(api_config)

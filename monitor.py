@@ -2,7 +2,6 @@ from os import walk
 from os.path import join
 
 
-
 class Monitor():
   def __init__(self):
     self.fund_settings = None
@@ -74,8 +73,8 @@ class Monitor():
 
 if __name__ == "__main__":
   from config import *
-  from api import C2
-  c2 = C2.C2(c2_config)
+  from api.C2 import C2
+  c2 = C2(c2_config)
   monitor = Monitor()
   monitor.append_api(c2)
   monitor.set_fund_settings(fund_settings)

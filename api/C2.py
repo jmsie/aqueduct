@@ -1,7 +1,6 @@
-import sys
 import json
+from time import time
 
-sys.path.append('..')
 from api.API import API
 
 class C2(API):
@@ -26,7 +25,9 @@ class C2(API):
       "positions": self.positions,
     }
     payload = json.dumps(data)
+    print("Commit: {}".format(time()))
     print(payload)
+
 
 
 if __name__ == "__main__":

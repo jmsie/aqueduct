@@ -33,11 +33,17 @@ class Monitor():
         fund['targets'][target_name] = target_settings
         target_settings['position'] = 0
       self.funds.append(fund)
+      print("Init fund: " + fund_name)
+      print("\tTrading target: " + target_name)
+      print("\tSignal_files:")
+      for signal_file in target_settings['signal_files']:
+        print("\t\t"+signal_file)
 
   def append_api(self, api):
     self.APIs.append(api)
 
   def start(self):
+    print("Start tracking...")
     while(1):
       self.track_files()
 
@@ -78,4 +84,4 @@ if __name__ == "__main__":
   monitor = Monitor()
   monitor.append_api(c2)
   monitor.set_fund_settings(fund_settings)
-  monitor.start()
+  #monitor.start()

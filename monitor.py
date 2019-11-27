@@ -1,6 +1,6 @@
 from os import walk
 from os.path import join
-
+import time
 
 class Monitor():
   def __init__(self):
@@ -47,6 +47,7 @@ class Monitor():
     print("Start tracking...")
     while(1):
       self.track_files()
+      time.sleep(0.001)
 
   def track_files(self):
     for fund in self.funds:

@@ -1,12 +1,19 @@
 import json
 from time import time
 
-from api.API import API
-
-class C2(API):
+class C2():
   def __init__(self, context):
-    super().__init__(context)
+    self.name = ""
+    self.base_url = ""
     self.positions = []
+    self.set_api_config(context)
+
+  def set_api_config(self, context):
+    try:
+      self.name = context['name']
+      self.base_url = context['base_url']
+    except:
+      print("Error in setting up API: " + self.name)
 
   def reset(self):
     self.positions = []

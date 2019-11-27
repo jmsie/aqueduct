@@ -1,5 +1,5 @@
 import json
-from time import time
+from datetime import datetime
 
 class C2():
   def __init__(self, context):
@@ -32,8 +32,8 @@ class C2():
       "positions": self.positions,
     }
     payload = json.dumps(data)
-    print("Commit: {}".format(time()))
-    print(payload)
+    print("commit position: {}".format(datetime.now()))
+    print(self.positions)
 
 
 

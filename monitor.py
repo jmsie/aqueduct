@@ -51,7 +51,6 @@ class Monitor():
 
   def track_files(self):
     for fund in self.funds:
-      targets = fund['targets']
       try:
         total_position = 0
         system_id = fund['system_id']
@@ -72,12 +71,11 @@ class Monitor():
           for api in self.APIs:
             api.reset()
             for symbol, target in fund['targets'].items():
-              api.set_positions(symbol, target['symbol_type'], target['position'])
+              api.set_positions(symbol, target['symbol_type'], total_position)
             api.commit_positions(system_id, api_key)
           target['position'] = total_position
       except:
         print("Error while handling fund: {}, revert the targets status".format(fund['name']))
-        fund['targets'] = targets
 
 if __name__ == "__main__":
   from config import *

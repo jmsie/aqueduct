@@ -8,6 +8,7 @@ class C2():
     self.commit_position_api = ""
     self.positions = []
     self.set_api_config(context)
+    self.log = open("C2.log", "a")
 
   def set_api_config(self, context):
     try:
@@ -33,9 +34,13 @@ class C2():
       "apikey": api_key,
       "positions": self.positions,
     }
-    print("commit position: {}".format(datetime.now()))
+    print("\ncommit position: {}".format(datetime.now()))
+    self.log.write("commit position: {}\n".format(datetime.now()))
     print(self.positions)
+    self.log.write(str(self.positions) + "\n")
 
     response = requests.post(url=self.commit_position_api, json=data)
     print(response.json())
+    self.log.write(str(response.json()) + "\n")
+    self.log.flush()
 

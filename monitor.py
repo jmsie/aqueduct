@@ -66,7 +66,6 @@ class Monitor():
               position = int(line.split(',')[1])
               total_position += position
           if target['position'] != total_position:
-            target['position'] = total_position
             update = True
 
         if update:
@@ -75,6 +74,7 @@ class Monitor():
             for symbol, target in fund['targets'].items():
               api.set_positions(symbol, target['symbol_type'], target['position'])
             api.commit_positions(system_id, api_key)
+          target['position'] = total_position
       except:
         print("Error while handling fund: {}, revert the targets status".format(fund['name']))
         fund['targets'] = targets

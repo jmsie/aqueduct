@@ -75,7 +75,7 @@ class Monitor():
             api.commit_positions(system_id, api_key)
           target['position'] = total_position
       except:
-        print("Error while handling fund: {}, revert the targets status".format(fund['name']))
+        pass
 
 if __name__ == "__main__":
   from config import *
